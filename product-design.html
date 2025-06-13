@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Design - Tommy Saunders</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Design Process Colors */
+            --research-blue: #E3F2FD;
+            --ideate-purple: #F3E5F5;
+            --prototype-yellow: #FFF9C4;
+            --test-green: #E8F5E9;
+            --iterate-orange: #FFF3E0;
+            --ship-coral: #FFE5EC;
+            
+            /* System States */
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --error: #F44336;
+            --info: #2196F3;
+            
+            /* UI Foundation */
+            --primary: #5E35B1;
+            --secondary: #00ACC1;
+            --accent: #FF4081;
+            
+            /* Grays */
+            --gray-900: #212121;
+            --gray-800: #424242;
+            --gray-600: #757575;
+            --gray-400: #BDBDBD;
+            --gray-200: #EEEEEE;
+            --gray-100: #F5F5F5;
+            --white: #FFFFFF;
+            
+            /* Spacing System */
+            --unit: 8px;
+            --space-xs: calc(var(--unit) * 1);
+            --space-sm: calc(var(--unit) * 2);
+            --space-md: calc(var(--unit) * 3);
+            --space-lg: calc(var(--unit) * 4);
+            --space-xl: calc(var(--unit) * 6);
+            --space-2xl: calc(var(--unit) * 8);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gray-100);
+            color: var(--gray-900);
+            line-height: 1.5;
+        }
+
+        /* Design System Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-sm) var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-900);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #FF6B6B;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .design-tools {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .tool-btn {
+            padding: var(--space-xs) var(--space-sm);
+            border: 2px solid var(--gray-900);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .tool-btn:hover {
+            background: var(--gray-900);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 80px auto 0;
+            padding: var(--space-md);
+        }
+
+        /* Design Process Hero */
+        .process-hero {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: var(--space-sm);
+            padding: var(--space-lg);
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .process-line {
+            position: absolute;
+            top: 50%;
+            left: var(--space-lg);
+            right: var(--space-lg);
+            height: 2px;
+            background: var(--gray-300);
+            z-index: 1;
+        }
+
+        .process-stage {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stage-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-sm);
+            background: var(--white);
+            border: 3px solid var(--gray-900);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .process-stage:nth-child(1) .stage-icon { background: var(--research-blue); }
+        .process-stage:nth-child(2) .stage-icon { background: var(--ideate-purple); }
+        .process-stage:nth-child(3) .stage-icon { background: var(--prototype-yellow); }
+        .process-stage:nth-child(4) .stage-icon { background: var(--test-green); }
+        .process-stage:nth-child(5) .stage-icon { background: var(--iterate-orange); }
+        .process-stage:nth-child(6) .stage-icon { background: var(--ship-coral); }
+
+        .process-stage:hover .stage-icon {
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .stage-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .stage-active {
+            transform: translateY(-8px);
+        }
+
+        .stage-active .stage-icon {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        /* Problem Definition */
+        .problem-section {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .problem-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .problem-statement {
+            background: var(--white);
+            border-radius: 16px;
+            padding: var(--space-xl);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-statement::before {
+            content: 'PROBLEM';
+            position: absolute;
+            top: var(--space-md);
+            left: var(--space-md);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--error);
+        }
+
+        .problem-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-md);
+            line-height: 1.2;
+        }
+
+        .problem-description {
+            font-size: 18px;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+
+        .metric-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: var(--space-md);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .metric-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-top: var(--space-xs);
+        }
+
+        /* User Research */
+        .research-section {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .section-badge {
+            background: var(--research-blue);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .persona-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: var(--space-lg);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .persona-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .persona-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .persona-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .persona-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--research-blue);
+            border-radius: 50%;
+            margin: 0 auto var(--space-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .persona-name {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: var(--space-xs);
+        }
+
+        .persona-role {
+            text-align: center;
+            color: var(--gray-600);
+            margin-bottom: var(--space-md);
+        }
+
+        .persona-needs {
+            border-top: 1px solid var(--gray-200);
+            padding-top: var(--space-md);
+        }
+
+        .need-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-xs);
+            font-size: 14px;
+        }
+
+        .need-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Testing & Iteration */
+        .testing-section {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .testing-results {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .heatmap-container {
+            background: var(--white);
+            border-radius: 16px;
+            padding: var(--space-xl);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .heatmap-device {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background: var(--gray-100);
+            border: 3px solid var(--gray-900);
+            border-radius: 20px;
+            padding: var(--space-md);
+            position: relative;
+        }
+
+        .heatmap-screen {
+            background: var(--white);
+            border-radius: 8px;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heat-spot {
+            position: absolute;
+            border-radius: 50%;
+            animation: heatPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes heatPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+        }
+
+        .heat-high {
+            background: radial-gradient(circle, rgba(244, 67, 54, 0.8), transparent);
+            width: 80px;
+            height: 80px;
+        }
+
+        .heat-medium {
+            background: radial-gradient(circle, rgba(255, 152, 0, 0.6), transparent);
+            width: 60px;
+            height: 60px;
+        }
+
+        .heat-low {
+            background: radial-gradient(circle, rgba(33, 150, 243, 0.4), transparent);
+            width: 40px;
+            height: 40px;
+        }
+
+        .testing-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .metric-box {
+            background: var(--white);
+            border-radius: 12px;
+            padding: var(--space-lg);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .metric-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .metric-bar {
+            background: var(--gray-200);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: var(--space-xs);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+
+        .metric-success { background: var(--success); }
+        .metric-warning { background: var(--warning); }
+        .metric-error { background: var(--error); }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--gray-600);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .process-timeline {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-md);
+            }
+            
+            .problem-container,
+            .testing-results {
+                grid-template-columns: 1fr;
+            }
+            
+            .persona-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Design System Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">
+                <div class="status-indicator"></div>
+                Product Design System
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/product-design">Product Design</a></li>
+                <li><a href="/creative-direction">Creative Direction</a></li>
+                <li><a href="/brand-strategy">Brand Strategy</a></li>
+                <li><a href="/design-system">Design System</a></li>
+                <li><a href="https://blog.tommysaunders.ai">Blog</a></li>
+            </ul>
+            <div class="design-tools">
+                <button class="tool-btn">🎨 Figma</button>
+                <button class="tool-btn">📐 Sketch</button>
+                <button class="tool-btn">🔧 Dev Mode</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Design Process Timeline -->
+        <section class="process-hero">
+            <div class="process-timeline">
+                <div class="process-line"></div>
+                
+                <div class="process-stage stage-active">
+                    <div class="stage-icon">🔍</div>
+                    <div class="stage-label">Research</div>
+                </div>
+                
+                <div class="process-stage">
+                    <div class="stage-icon">💡</div>
+                    <div class="stage-label">Define</div>
+                </div>
+                
+                <div class="process-stage">
+                    <div class="stage-icon">✏️</div>
+                    <div class="stage-label">Ideate</div>
+                </div>
+                
+                <div class="process-stage">
+                    <div class="stage-icon">🎨</div>
+                    <div class="stage-label">Design</div>
+                </div>
+                
+                <div class="process-stage">
+                    <div class="stage-icon">🧪</div>
+                    <div class="stage-label">Test</div>
+                </div>
+                
+                <div class="process-stage">
+                    <div class="stage-icon">🚀</div>
+                    <div class="stage-label">Ship</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Definition -->
+        <section class="problem-section">
+            <div class="section-header">
+                <h2 class="section-title">Problem Space</h2>
+                <span class="section-badge">User-Centered</span>
+            </div>
+            
+            <div class="problem-container">
+                <div class="problem-statement">
+                    <h3 class="problem-title">How might we make digital products feel more human?</h3>
+                    <p class="problem-description">Users feel disconnected from digital experiences. They crave authenticity, personality, and moments of delight in their daily interactions with technology.</p>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">73%</div>
+                        <div class="metric-label">Feel products lack personality</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">2.4s</div>
+                        <div class="metric-label">Average attention span</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">89%</div>
+                        <div class="metric-label">Want more delightful experiences</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">5x</div>
+                        <div class="metric-label">More likely to engage</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Research -->
+        <section class="research-section">
+            <div class="section-header">
+                <h2 class="section-title">User Research</h2>
+                <span class="section-badge">Insights</span>
+            </div>
+            
+            <div class="persona-grid">
+                <div class="persona-card">
+                    <div class="persona-avatar">👩‍💼</div>
+                    <h3 class="persona-name">Sarah Chen</h3>
+                    <p class="persona-role">Product Manager, 32</p>
+                    <div class="persona-needs">
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Needs efficiency without losing humanity</span>
+                        </div>
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Values clear communication</span>
+                        </div>
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Seeks moments of delight</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-avatar">👨‍🎨</div>
+                    <h3 class="persona-name">Marcus Johnson</h3>
+                    <p class="persona-role">Creative Director, 28</p>
+                    <div class="persona-needs">
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Craves visual inspiration</span>
+                        </div>
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Wants tools that don't limit creativity</span>
+                        </div>
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Appreciates thoughtful details</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-avatar">👩‍💻</div>
+                    <h3 class="persona-name">Alex Rivera</h3>
+                    <p class="persona-role">Developer, 25</p>
+                    <div class="persona-needs">
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Needs clear documentation</span>
+                        </div>
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Values consistent patterns</span>
+                        </div>
+                        <div class="need-item">
+                            <div class="need-dot"></div>
+                            <span>Wants flexible components</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testing & Iteration -->
+        <section class="testing-section">
+            <div class="section-header">
+                <h2 class="section-title">Testing & Validation</h2>
+                <span class="section-badge">Data-Driven</span>
+            </div>
+            
+            <div class="testing-results">
+                <div class="heatmap-container">
+                    <h3 style="margin-bottom: var(--space-lg);">Click Heatmap</h3>
+                    <div class="heatmap-device">
+                        <div class="heatmap-screen">
+                            <div class="heat-spot heat-high" style="top: 20%; left: 50%; transform: translate(-50%, -50%);"></div>
+                            <div class="heat-spot heat-medium" style="top: 40%; left: 30%;"></div>
+                            <div class="heat-spot heat-medium" style="top: 60%; left: 70%;"></div>
+                            <div class="heat-spot heat-low" style="top: 80%; left: 40%;"></div>
+                            <div class="heat-spot heat-low" style="top: 70%; left: 20%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testing-metrics">
+                    <div class="metric-box">
+                        <h4 class="metric-title">Task Success Rate</h4>
+                        <div class="metric-bar">
+                            <div class="metric-fill metric-success" style="width: 87%;"></div>
+                        </div>
+                        <div class="metric-label">
+                            <span>Success</span>
+                            <span>87%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-box">
+                        <h4 class="metric-title">Time on Task</h4>
+                        <div class="metric-bar">
+                            <div class="metric-fill metric-warning" style="width: 65%;"></div>
+                        </div>
+                        <div class="metric-label">
+                            <span>Efficiency</span>
+                            <span>2.3 min</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-box">
+                        <h4 class="metric-title">Error Rate</h4>
+                        <div class="metric-bar">
+                            <div class="metric-fill metric-error" style="width: 15%;"></div>
+                        </div>
+                        <div class="metric-label">
+                            <span>Errors</span>
+                            <span>15%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-box">
+                        <h4 class="metric-title">User Satisfaction</h4>
+                        <div class="metric-bar">
+                            <div class="metric-fill metric-success" style="width: 92%;"></div>
+                        </div>
+                        <div class="metric-label">
+                            <span>NPS Score</span>
+                            <span>+72</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Process Timeline Interaction
+        document.querySelectorAll('.process-stage').forEach((stage, index) => {
+            stage.addEventListener('click', function() {
+                // Remove active from all stages
+                document.querySelectorAll('.process-stage').forEach(s => s.classList.remove('stage-active'));
+                
+                // Add active to clicked stage
+                this.classList.add('stage-active');
+                
+                // Animate progress line
+                const line = document.querySelector('.process-line');
+                const progress = ((index + 1) / 6) * 100;
+                line.style.background = `linear-gradient(90deg, var(--primary) ${progress}%, var(--gray-300) ${progress}%)`;
+            });
+        });
+
+        // Metric Cards Counter Animation
+        document.querySelectorAll('.metric-value').forEach(metric => {
+            const finalValue = metric.textContent;
+            const isPercentage = finalValue.includes('%');
+            const isTime = finalValue.includes('s');
+            const isMultiplier = finalValue.includes('x');
+            
+            let numericValue = parseFloat(finalValue);
+            let suffix = '';
+            
+            if (isPercentage) suffix = '%';
+            else if (isTime) suffix = 's';
+            else if (isMultiplier) suffix = 'x';
+            
+            let currentValue = 0;
+            const increment = numericValue / 50;
+            
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= numericValue) {
+                    currentValue = numericValue;
+                    clearInterval(timer);
+                }
+                
+                if (isTime) {
+                    metric.textContent = currentValue.toFixed(1) + suffix;
+                } else {
+                    metric.textContent = Math.floor(currentValue) + suffix;
+                }
+            }, 30);
+        });
+
+        // Tool Buttons
+        document.querySelectorAll('.tool-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.textContent = '✓ ' + this.textContent.slice(2);
+                this.style.background = 'var(--success)';
+                this.style.color = 'white';
+                
+                setTimeout(() => {
+                    this.textContent = this.textContent.slice(2);
+                    this.style.background = '';
+                    this.style.color = '';
+                }, 1500);
+            });
+        });
+
+        // Heatmap Interaction
+        document.querySelectorAll('.heat-spot').forEach(spot => {
+            spot.addEventListener('click', function() {
+                const intensity = this.classList.contains('heat-high') ? 'High' : 
+                               this.classList.contains('heat-medium') ? 'Medium' : 'Low';
+                
+                const label = document.createElement('div');
+                label.style.cssText = `
+                    position: absolute;
+                    top: -30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--gray-900);
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    white-space: nowrap;
+                `;
+                label.textContent = `${intensity} Activity`;
+                this.appendChild(label);
+                
+                setTimeout(() => {
+                    label.remove();
+                }, 2000);
+            });
+        });
+
+        // Scroll Reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(40px)';
+            section.style.transition = 'all 0.6s ease-out';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
