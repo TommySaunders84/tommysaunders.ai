@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Strategy - Tommy Saunders</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Strategic Color System */
+            --vision-purple: #F3E5F5;
+            --mission-blue: #E3F2FD;
+            --values-green: #E8F5E9;
+            --position-coral: #FFE5EC;
+            --audience-yellow: #FFF9C4;
+            --tactics-orange: #FFF3E0;
+            
+            /* Impact Colors */
+            --high-impact: #FF6B6B;
+            --medium-impact: #4DABF7;
+            --low-impact: #51CF66;
+            
+            /* Foundation */
+            --dark: #1A1A1A;
+            --gray-900: #212529;
+            --gray-700: #495057;
+            --gray-500: #ADB5BD;
+            --gray-300: #DEE2E6;
+            --gray-100: #F8F9FA;
+            --white: #FFFFFF;
+            
+            /* Strategic Spacing */
+            --gap-tactical: 20px;
+            --gap-operational: 40px;
+            --gap-strategic: 80px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation as North Star */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 2px solid var(--dark);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #FF6B6B;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .strategy-score {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .score-item {
+            background: var(--position-coral);
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 100px auto 0;
+            padding: 20px;
+        }
+
+        /* Strategic Framework Hero */
+        .strategy-framework {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: var(--gap-tactical);
+            margin-bottom: var(--gap-strategic);
+        }
+
+        .vision-statement {
+            grid-column: 1 / -1;
+            background: var(--vision-purple);
+            border: 3px solid var(--dark);
+            border-radius: 30px;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision-statement::before {
+            content: "NORTH STAR";
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            opacity: 0.3;
+        }
+
+        .vision-text {
+            font-size: clamp(36px, 4vw, 56px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        .vision-metric {
+            font-size: 18px;
+            color: var(--gray-700);
+        }
+
+        /* Strategic Pillars */
+        .strategic-pillars {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--gap-tactical);
+            margin-bottom: var(--gap-operational);
+        }
+
+        .pillar {
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pillar:hover {
+            transform: translateY(-10px);
+            box-shadow: 10px 10px 0 var(--dark);
+        }
+
+        .pillar-1 { background: var(--mission-blue); }
+        .pillar-2 { background: var(--values-green); }
+        .pillar-3 { background: var(--position-coral); }
+        .pillar-4 { background: var(--audience-yellow); }
+
+        .pillar-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 48px;
+            font-weight: 900;
+            opacity: 0.2;
+        }
+
+        .pillar-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .pillar-description {
+            font-size: 14px;
+            color: var(--gray-700);
+            flex-grow: 1;
+        }
+
+        .pillar-kpi {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--dark);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Brand Pyramid */
+        .brand-pyramid {
+            margin-bottom: var(--gap-strategic);
+        }
+
+        .pyramid-header {
+            text-align: center;
+            margin-bottom: var(--gap-operational);
+        }
+
+        .pyramid-title {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+        }
+
+        .pyramid-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pyramid-level {
+            display: grid;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .pyramid-level-1 { grid-template-columns: 1fr; }
+        .pyramid-level-2 { grid-template-columns: repeat(2, 1fr); }
+        .pyramid-level-3 { grid-template-columns: repeat(3, 1fr); }
+        .pyramid-level-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .pyramid-block {
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .pyramid-block:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .level-1 .pyramid-block { 
+            background: var(--vision-purple);
+            min-height: 150px;
+        }
+        
+        .level-2 .pyramid-block { 
+            background: var(--mission-blue);
+            min-height: 130px;
+        }
+        
+        .level-3 .pyramid-block { 
+            background: var(--values-green);
+            min-height: 110px;
+        }
+        
+        .level-4 .pyramid-block { 
+            background: var(--audience-yellow);
+            min-height: 90px;
+        }
+
+        .pyramid-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            margin-bottom: 10px;
+        }
+
+        .pyramid-content {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* Competitive Matrix */
+        .competitive-matrix {
+            margin-bottom: var(--gap-strategic);
+        }
+
+        .matrix-container {
+            position: relative;
+            height: 500px;
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            background: var(--gray-100);
+            overflow: hidden;
+        }
+
+        .matrix-axes {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+        }
+
+        .axis-vertical,
+        .axis-horizontal {
+            position: absolute;
+            background: var(--dark);
+        }
+
+        .axis-vertical {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .axis-horizontal {
+            height: 2px;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .axis-label {
+            position: absolute;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--white);
+            padding: 5px 10px;
+            border: 2px solid var(--dark);
+            border-radius: 10px;
+        }
+
+        .label-top {
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .label-bottom {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .label-left {
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .label-right {
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .competitor {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .competitor:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+
+        .competitor-us {
+            background: var(--high-impact);
+            color: var(--white);
+            width: 80px;
+            height: 80px;
+            font-size: 32px;
+        }
+
+        .competitor-1 {
+            background: var(--position-coral);
+            top: 30%;
+            left: 70%;
+        }
+
+        .competitor-2 {
+            background: var(--audience-yellow);
+            top: 60%;
+            left: 30%;
+        }
+
+        .competitor-3 {
+            background: var(--tactics-orange);
+            top: 40%;
+            left: 40%;
+        }
+
+        /* Strategy Canvas */
+        .strategy-canvas {
+            margin-bottom: var(--gap-strategic);
+        }
+
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--gap-tactical);
+        }
+
+        .canvas-section {
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 300px;
+        }
+
+        .canvas-section h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed var(--dark);
+        }
+
+        .canvas-what { background: var(--mission-blue); }
+        .canvas-how { background: var(--values-green); }
+        .canvas-why { background: var(--vision-purple); }
+
+        .canvas-item {
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid var(--dark);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .canvas-item:hover {
+            transform: translateX(10px);
+            box-shadow: 5px 5px 0 var(--dark);
+        }
+
+        /* Audience Personas */
+        .audience-section {
+            margin-bottom: var(--gap-strategic);
+        }
+
+        .persona-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--gap-tactical);
+        }
+
+        .persona-card {
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-10px) rotate(-2deg);
+            box-shadow: 10px 10px 0 var(--dark);
+        }
+
+        .persona-card:nth-child(1) { background: var(--audience-yellow); }
+        .persona-card:nth-child(2) { background: var(--position-coral); }
+        .persona-card:nth-child(3) { background: var(--mission-blue); }
+        .persona-card:nth-child(4) { background: var(--values-green); }
+
+        .persona-avatar {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .persona-name {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .persona-role {
+            font-size: 14px;
+            color: var(--gray-700);
+            margin-bottom: 20px;
+        }
+
+        .persona-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-top: 1px dashed var(--dark);
+        }
+
+        .persona-stat-label {
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .persona-stat-value {
+            font-weight: 800;
+        }
+
+        /* Tactical Roadmap */
+        .roadmap-section {
+            margin-bottom: var(--gap-strategic);
+        }
+
+        .roadmap-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--dark);
+            z-index: 1;
+        }
+
+        .timeline-phase {
+            position: relative;
+            z-index: 2;
+        }
+
+        .phase-marker {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border: 3px solid var(--dark);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .phase-marker:hover {
+            transform: scale(1.3);
+            background: var(--high-impact);
+            color: var(--white);
+        }
+
+        .phase-content {
+            background: var(--white);
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-phase:nth-child(1) .phase-content { background: var(--tactics-orange); }
+        .timeline-phase:nth-child(2) .phase-content { background: var(--audience-yellow); }
+        .timeline-phase:nth-child(3) .phase-content { background: var(--values-green); }
+        .timeline-phase:nth-child(4) .phase-content { background: var(--mission-blue); }
+
+        .phase-content:hover {
+            transform: translateY(-10px);
+            box-shadow: 5px 5px 0 var(--dark);
+        }
+
+        .phase-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .phase-timeline {
+            font-size: 14px;
+            color: var(--gray-700);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--gap-operational);
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--gray-700);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .strategy-framework {
+                grid-template-columns: 1fr;
+            }
+            
+            .strategic-pillars,
+            .persona-cards,
+            .roadmap-timeline {
+                grid-template-columns: 1fr;
+            }
+            
+            .pyramid-level-2,
+            .pyramid-level-3,
+            .pyramid-level-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .canvas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .competitor {
+                position: static !important;
+                margin: 10px auto;
+            }
+            
+            .matrix-container {
+                height: auto;
+                padding: 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Strategic Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">Brand Strategy Framework</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/product-design">Product Design</a></li>
+                <li><a href="/creative-direction">Creative Direction</a></li>
+                <li><a href="/brand-strategy">Brand Strategy</a></li>
+                <li><a href="/design-system">Design System</a></li>
+                <li><a href="https://blog.tommysaunders.ai">Blog</a></li>
+            </ul>
+            <div class="strategy-score">
+                <span class="score-item">Differentiation: 9.2</span>
+                <span class="score-item">Coherence: 8.7</span>
+                <span class="score-item">Relevance: 9.5</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Vision Statement - The North Star -->
+        <div class="strategy-framework">
+            <div class="vision-statement">
+                <h1 class="vision-text">When everything is the same,<br>different is the greatest opportunity.</h1>
+                <p class="vision-metric">Creating 10x impact through strategic unconventionality</p>
+            </div>
+        </div>
+
+        <!-- Strategic Pillars -->
+        <section class="strategic-pillars">
+            <div class="pillar pillar-1">
+                <span class="pillar-number">01</span>
+                <h3 class="pillar-title">Be Radically Different</h3>
+                <p class="pillar-description">Challenge every convention. Question every assumption. Create what doesn't exist.</p>
+                <div class="pillar-kpi">87% ↑</div>
+            </div>
+            
+            <div class="pillar pillar-2">
+                <span class="pillar-number">02</span>
+                <h3 class="pillar-title">Design With Purpose</h3>
+                <p class="pillar-description">Every pixel has intention. Every interaction creates value. Nothing is arbitrary.</p>
+                <div class="pillar-kpi">94% ↑</div>
+            </div>
+            
+            <div class="pillar pillar-3">
+                <span class="pillar-number">03</span>
+                <h3 class="pillar-title">Embrace Complexity</h3>
+                <p class="pillar-description">Simple solutions for complex problems. Make the difficult feel effortless.</p>
+                <div class="pillar-kpi">91% ↑</div>
+            </div>
+            
+            <div class="pillar pillar-4">
+                <span class="pillar-number">04</span>
+                <h3 class="pillar-title">Create Delight</h3>
+                <p class="pillar-description">Surprise and engage. Turn routine into remarkable. Make work feel like play.</p>
+                <div class="pillar-kpi">96% ↑</div>
+            </div>
+        </section>
+
+        <!-- Brand Pyramid -->
+        <section class="brand-pyramid">
+            <div class="pyramid-header">
+                <h2 class="pyramid-title">Brand Architecture</h2>
+                <p class="section-subtitle">From functional attributes to emotional essence</p>
+            </div>
+            
+            <div class="pyramid-container">
+                <div class="pyramid-level pyramid-level-1 level-1">
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Essence</div>
+                        <div class="pyramid-content">Unusual Wins</div>
+                    </div>
+                </div>
+                
+                <div class="pyramid-level pyramid-level-2 level-2">
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Emotional Benefits</div>
+                        <div class="pyramid-content">Confidence</div>
+                    </div>
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Emotional Benefits</div>
+                        <div class="pyramid-content">Inspiration</div>
+                    </div>
+                </div>
+                
+                <div class="pyramid-level pyramid-level-3 level-3">
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Functional Benefits</div>
+                        <div class="pyramid-content">Stand Out</div>
+                    </div>
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Functional Benefits</div>
+                        <div class="pyramid-content">Better Results</div>
+                    </div>
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Functional Benefits</div>
+                        <div class="pyramid-content">Save Time</div>
+                    </div>
+                </div>
+                
+                <div class="pyramid-level pyramid-level-4 level-4">
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Features</div>
+                        <div class="pyramid-content">Bold Design</div>
+                    </div>
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Features</div>
+                        <div class="pyramid-content">Smart UX</div>
+                    </div>
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Features</div>
+                        <div class="pyramid-content">Fast Delivery</div>
+                    </div>
+                    <div class="pyramid-block">
+                        <div class="pyramid-label">Features</div>
+                        <div class="pyramid-content">Clear Strategy</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Competitive Positioning Matrix -->
+        <section class="competitive-matrix">
+            <div class="section-header">
+                <h2 class="section-title">Market Position</h2>
+                <p class="section-subtitle">Where we play and how we win</p>
+            </div>
+            
+            <div class="matrix-container">
+                <div class="matrix-axes">
+                    <div class="axis-vertical"></div>
+                    <div class="axis-horizontal"></div>
+                    <div class="axis-label label-top">Innovative</div>
+                    <div class="axis-label label-bottom">Traditional</div>
+                    <div class="axis-label label-left">Functional</div>
+                    <div class="axis-label label-right">Emotional</div>
+                </div>
+                
+                <div class="competitor competitor-us" style="top: 20%; left: 75%;">US</div>
+                <div class="competitor competitor-1">A</div>
+                <div class="competitor competitor-2">B</div>
+                <div class="competitor competitor-3">C</div>
+            </div>
+        </section>
+
+        <!-- Strategy Canvas -->
+        <section class="strategy-canvas">
+            <div class="section-header">
+                <h2 class="section-title">Strategic Canvas</h2>
+                <p class="section-subtitle">What we do, how we do it, and why it matters</p>
+            </div>
+            
+            <div class="canvas-grid">
+                <div class="canvas-section canvas-what">
+                    <h3>What We Do</h3>
+                    <div class="canvas-item">Create distinctive digital experiences</div>
+                    <div class="canvas-item">Build memorable brand identities</div>
+                    <div class="canvas-item">Design systems that scale</div>
+                    <div class="canvas-item">Solve complex UX challenges</div>
+                </div>
+                
+                <div class="canvas-section canvas-how">
+                    <h3>How We Do It</h3>
+                    <div class="canvas-item">First principles thinking</div>
+                    <div class="canvas-item">Rapid experimentation</div>
+                    <div class="canvas-item">Cross-functional collaboration</div>
+                    <div class="canvas-item">Data-informed creativity</div>
+                </div>
+                
+                <div class="canvas-section canvas-why">
+                    <h3>Why It Matters</h3>
+                    <div class="canvas-item">Break through the noise</div>
+                    <div class="canvas-item">Create lasting impressions</div>
+                    <div class="canvas-item">Drive business results</div>
+                    <div class="canvas-item">Shape culture</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Target Audience Personas -->
+        <section class="audience-section">
+            <div class="section-header">
+                <h2 class="section-title">Target Audiences</h2>
+                <p class="section-subtitle">Who we serve and what they need</p>
+            </div>
+            
+            <div class="persona-cards">
+                <div class="persona-card">
+                    <div class="persona-avatar">👔</div>
+                    <h3 class="persona-name">The Visionary</h3>
+                    <p class="persona-role">CEO / Founder</p>
+                    <div class="persona-stat">
+                        <span class="persona-stat-label">Budget</span>
+                        <span class="persona-stat-value">$500K+</span>
+                    </div>
+                    <div class="persona-stat">
+                        <span class="persona-stat-label">Risk Appetite</span>
+                        <span class="persona-stat-value">High</span>
+                    </div>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-avatar">🎨</div>
+                    <h3 class="persona-name">The Creator</h3>
+                    <p class="persona-role">Creative Director</p>
+                    <div class="persona-stat">
+                        <span class="persona-stat-label">Budget</span>
+                        <span class="persona-stat-value">$100-300K</span>
+                    </div>
+                    <div class="persona-stat">
+                        <span class="persona-stat-label">Risk Appetite</span>
+                        <span class="persona-stat-value">Medium</span>
+                    </div>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-avatar">📊</div>
+                    <h3 class="persona-name">The Strategist</h3>
+                    <p class="persona-role">CMO / VP Marketing</p>
+                    <div class="persona-stat">
+                        <span class="persona-stat-label">Budget</span>
+                        <span class="persona-stat-value">$200-500K</span>
+                    </div>
+                    <div class="persona-stat">
+                        <span class="persona-stat-label">Risk Appetite</span>
+                        <span class="persona-stat-value">Calculated</span>
+                    </div>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-avatar">🚀</div>
+                    <h3 class="persona-name">The Innovator</h3>
+                    <p class="persona-role">Product Manager</p>
+                    <div class="persona-stat">
+                        <span class="persona-stat-label">Budget</span>
+                        <span class="persona-stat-value">$50-200K</span>
+                    </div>
+                    <div class="persona-stat">
+                        <span class="persona-stat-label">Risk Appetite</span>
+                        <span class="persona-stat-value">Experimental</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strategic Roadmap -->
+        <section class="roadmap-section">
+            <div class="section-header">
+                <h2 class="section-title">Strategic Roadmap</h2>
+                <p class="section-subtitle">Our path to market leadership</p>
+            </div>
+            
+            <div class="roadmap-timeline">
+                <div class="timeline-phase">
+                    <div class="phase-marker">1</div>
+                    <div class="phase-content">
+                        <h3 class="phase-title">Foundation</h3>
+                        <p class="phase-timeline">Q1-Q2 2025</p>
+                        <ul style="text-align: left; padding-left: 20px;">
+                            <li>Establish design system</li>
+                            <li>Build core team</li>
+                            <li>Define processes</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-phase">
+                    <div class="phase-marker">2</div>
+                    <div class="phase-content">
+                        <h3 class="phase-title">Growth</h3>
+                        <p class="phase-timeline">Q3-Q4 2025</p>
+                        <ul style="text-align: left; padding-left: 20px;">
+                            <li>Scale operations</li>
+                            <li>Expand services</li>
+                            <li>Build partnerships</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-phase">
+                    <div class="phase-marker">3</div>
+                    <div class="phase-content">
+                        <h3 class="phase-title">Expansion</h3>
+                        <p class="phase-timeline">Q1-Q2 2026</p>
+                        <ul style="text-align: left; padding-left: 20px;">
+                            <li>New markets</li>
+                            <li>Product innovation</li>
+                            <li>Thought leadership</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-phase">
+                    <div class="phase-marker">4</div>
+                    <div class="phase-content">
+                        <h3 class="phase-title">Leadership</h3>
+                        <p class="phase-timeline">Q3 2026+</p>
+                        <ul style="text-align: left; padding-left: 20px;">
+                            <li>Industry standard</li>
+                            <li>Global presence</li>
+                            <li>Category creation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Strategic Metrics Animation
+        document.querySelectorAll('.pillar-kpi').forEach(kpi => {
+            const value = parseInt(kpi.textContent);
+            let current = 0;
+            const increment = value / 50;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= value) {
+                    current = value;
+                    clearInterval(timer);
+                }
+                kpi.textContent = Math.floor(current) + '% ↑';
+            }, 30);
+        });
+
+        // Interactive Pyramid
+        document.querySelectorAll('.pyramid-block').forEach(block => {
+            block.addEventListener('click', function() {
+                const level = this.closest('.pyramid-level');
+                const allBlocks = level.querySelectorAll('.pyramid-block');
+                
+                allBlocks.forEach(b => b.style.opacity = '0.5');
+                this.style.opacity = '1';
+                
+                setTimeout(() => {
+                    allBlocks.forEach(b => b.style.opacity = '1');
+                }, 1000);
+            });
+        });
+
+        // Competitive Matrix Tooltips
+        document.querySelectorAll('.competitor').forEach(comp => {
+            comp.addEventListener('mouseenter', function() {
+                const tooltip = document.createElement('div');
+                tooltip.style.cssText = `
+                    position: absolute;
+                    bottom: 70px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--dark);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    font-size: 14px;
+                    white-space: nowrap;
+                `;
+                
+                if (this.classList.contains('competitor-us')) {
+                    tooltip.textContent = 'Our Position: High Innovation + Emotional Connection';
+                } else {
+                    tooltip.textContent = 'Competitor: Traditional Approach';
+                }
+                
+                this.appendChild(tooltip);
+            });
+            
+            comp.addEventListener('mouseleave', function() {
+                const tooltip = this.querySelector('div');
+                if (tooltip) tooltip.remove();
+            });
+        });
+
+        // Canvas Items Interaction
+        document.querySelectorAll('.canvas-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.background = 'var(--high-impact)';
+                this.style.color = 'white';
+                
+                setTimeout(() => {
+                    this.style.background = 'rgba(255, 255, 255, 0.7)';
+                    this.style.color = 'var(--dark)';
+                }, 1000);
+            });
+        });
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+
+        // Persona Card Flip Effect
+        document.querySelectorAll('.persona-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'translateY(-10px) rotate(-2deg) scale(1.05)';
+                
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-10px) rotate(-2deg)';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
