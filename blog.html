@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Unusual Blog - Where Words Meet Wonder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Pastels - Raw Materials Brand */
+            --pastel-pink: #FFE5EC;
+            --pastel-blue: #E3F2FD;
+            --pastel-yellow: #FFF9C4;
+            --pastel-green: #E8F5E9;
+            --pastel-purple: #F3E5F5;
+            --pastel-orange: #FFF3E0;
+            
+            /* Bright Accents - Raw Materials Brand */
+            --bright-coral: #FF6B6B;
+            --bright-blue: #4DABF7;
+            --bright-yellow: #FFD43B;
+            --bright-green: #51CF66;
+            --bright-purple: #845EF7;
+            
+            /* Foundation */
+            --dark: #1A1A1A;
+            --gray: #666666;
+            --light-gray: #F5F5F5;
+            --border: #E0E0E0;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light-gray);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 3px solid var(--dark);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            color: var(--bright-coral);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-item {
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--bright-coral);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -3px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--dark);
+            border-radius: 30px;
+            background: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .filter-btn:hover::before {
+            left: 0;
+        }
+
+        .filter-design::before { background: var(--pastel-pink); }
+        .filter-tech::before { background: var(--pastel-blue); }
+        .filter-culture::before { background: var(--pastel-yellow); }
+        .filter-strategy::before { background: var(--pastel-green); }
+
+        .filter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 0 var(--dark);
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            grid-auto-flow: dense;
+        }
+
+        /* Blog Card Base */
+        .blog-card {
+            border: 3px solid var(--dark);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: var(--white);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 10px 10px 0 var(--dark);
+        }
+
+        /* Size Variations */
+        .card-large {
+            grid-column: span 2;
+            grid-row: span 2;
+            min-height: 500px;
+        }
+
+        .card-tall {
+            grid-row: span 2;
+            min-height: 500px;
+        }
+
+        .card-wide {
+            grid-column: span 2;
+            min-height: 250px;
+        }
+
+        .card-regular {
+            min-height: 350px;
+        }
+
+        /* Image Cover Cards */
+        .image-cover {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 26, 26, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .image-cover:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .image-cover:hover .cover-image {
+            transform: scale(1.1);
+            filter: blur(5px);
+        }
+
+        .overlay-category {
+            color: var(--bright-coral);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .overlay-title {
+            color: var(--white);
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 800;
+            line-height: 1.2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .overlay-excerpt {
+            color: #CCCCCC;
+            font-size: 16px;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .overlay-meta {
+            display: flex;
+            gap: 20px;
+            color: #CCCCCC;
+            font-size: 14px;
+        }
+
+        /* Text Cover Cards */
+        .text-cover {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .text-category {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .design-cat { color: var(--bright-coral); background: var(--pastel-pink); }
+        .tech-cat { color: var(--bright-blue); background: var(--pastel-blue); }
+        .culture-cat { color: var(--bright-yellow); background: var(--pastel-yellow); }
+        .strategy-cat { color: var(--bright-green); background: var(--pastel-green); }
+
+        .text-title {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .text-excerpt {
+            font-size: 18px;
+            color: var(--gray);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .text-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Text to Image Hover */
+        .text-hover-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .text-hover-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .text-cover:hover .text-hover-image {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .text-cover:hover .text-content {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .text-content {
+            position: relative;
+            z-index: 2;
+            transition: all 0.5s ease;
+        }
+
+        /* Featured Post */
+        .featured-section {
+            margin-bottom: 60px;
+        }
+
+        .featured-card {
+            border: 4px solid var(--dark);
+            border-radius: 30px;
+            overflow: hidden;
+            background: var(--pastel-purple);
+            min-height: 400px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .featured-card:hover {
+            transform: scale(1.02);
+            box-shadow: 15px 15px 0 var(--dark);
+        }
+
+        .featured-content {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-label {
+            background: var(--bright-coral);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+
+        .featured-title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        .featured-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .featured-card:hover .featured-image img {
+            transform: scale(1.1);
+        }
+
+        /* Author Info */
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bright-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .author-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+        }
+
+        .post-date {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            margin-top: 80px;
+            background: var(--dark);
+            color: var(--white);
+            padding: 60px;
+            border-radius: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-section::before {
+            content: '📮';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            font-size: 200px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        .newsletter-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px 25px;
+            border: 3px solid var(--white);
+            border-radius: 30px;
+            background: transparent;
+            color: var(--white);
+            font-size: 16px;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .newsletter-btn {
+            padding: 15px 35px;
+            background: var(--white);
+            color: var(--dark);
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-large,
+            .card-wide {
+                grid-column: span 1;
+            }
+            
+            .featured-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-content {
+                padding: 40px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">The Unusual Blog</div>
+            <ul class="nav-menu">
+                <li class="nav-item">Latest</li>
+                <li class="nav-item">Design</li>
+                <li class="nav-item">Technology</li>
+                <li class="nav-item">Culture</li>
+                <li class="nav-item">Strategy</li>
+                <li class="nav-item">About</li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">Read Different</h1>
+            <p class="hero-subtitle">Where conventional thinking comes to die</p>
+        </section>
+
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <button class="filter-btn filter-all">All Posts</button>
+            <button class="filter-btn filter-design">Design</button>
+            <button class="filter-btn filter-tech">Technology</button>
+            <button class="filter-btn filter-culture">Culture</button>
+            <button class="filter-btn filter-strategy">Strategy</button>
+        </div>
+
+        <!-- Featured Post -->
+        <section class="featured-section">
+            <article class="featured-card">
+                <div class="featured-content">
+                    <span class="featured-label">Featured Story</span>
+                    <h2 class="featured-title">The Art of Being Deliberately Different</h2>
+                    <p class="text-excerpt">Why swimming against the current is the only way to make waves in design.</p>
+                    <div class="author-info">
+                        <div class="author-avatar">SC</div>
+                        <div class="author-details">
+                            <span class="author-name">Sarah Chen</span>
+                            <span class="post-date">2 days ago • 12 min read</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="featured-image">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=400&fit=crop" alt="Featured">
+                </div>
+            </article>
+        </section>
+
+        <!-- Blog Grid -->
+        <section class="blog-grid">
+            <!-- Large Image Cover Card -->
+            <article class="blog-card card-large">
+                <div class="image-cover">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop" alt="Post" class="cover-image">
+                    <div class="image-overlay">
+                        <span class="overlay-category">Design Philosophy</span>
+                        <h3 class="overlay-title">Breaking the Grid: When Chaos Creates Order</h3>
+                        <p class="overlay-excerpt">Exploring how deliberate disruption in design systems can lead to more engaging user experiences.</p>
+                        <div class="overlay-meta">
+                            <span>Marcus Johnson</span>
+                            <span>•</span>
+                            <span>8 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Regular Text Cover Card -->
+            <article class="blog-card card-regular design-cat">
+                <div class="text-cover">
+                    <div class="text-content">
+                        <span class="text-category">Design</span>
+                        <h3 class="text-title">Why Perfect is the Enemy of Interesting</h3>
+                        <p class="text-excerpt">The beauty in imperfection and how it connects us.</p>
+                        <div class="text-meta">
+                            <span>5 min read</span>
+                            <span>•</span>
+                            <span>Yesterday</span>
+                        </div>
+                    </div>
+                    <div class="text-hover-image">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=350&fit=crop" alt="Hidden">
+                    </div>
+                </div>
+            </article>
+
+            <!-- Tall Image Cover Card -->
+            <article class="blog-card card-tall">
+                <div class="image-cover">
+                    <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=400&h=600&fit=crop" alt="Post" class="cover-image">
+                    <div class="image-overlay">
+                        <span class="overlay-category">Technology</span>
+                        <h3 class="overlay-title">The Future is Analog</h3>
+                        <p class="overlay-excerpt">Why the next wave of innovation might look surprisingly familiar.</p>
+                        <div class="overlay-meta">
+                            <span>Alex Rivera</span>
+                            <span>•</span>
+                            <span>10 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Wide Text Cover Card -->
+            <article class="blog-card card-wide tech-cat">
+                <div class="text-cover">
+                    <div class="text-content">
+                        <span class="text-category">Technology</span>
+                        <h3 class="text-title">Coding Like a Poet: The Art of Beautiful Functions</h3>
+                        <p class="text-excerpt">When algorithms become art and logic becomes literature.</p>
+                        <div class="text-meta">
+                            <span>15 min read</span>
+                            <span>•</span>
+                            <span>Last week</span>
+                        </div>
+                    </div>
+                    <div class="text-hover-image">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=300&fit=crop" alt="Hidden">
+                    </div>
+                </div>
+            </article>
+
+            <!-- Regular Image Cover Card -->
+            <article class="blog-card card-regular">
+                <div class="image-cover">
+                    <img src="https://images.unsplash.com/photo-1524634126442-357e0eac3c14?w=400&h=350&fit=crop" alt="Post" class="cover-image">
+                    <div class="image-overlay">
+                        <span class="overlay-category">Culture</span>
+                        <h3 class="overlay-title">The Renaissance of Weird</h3>
+                        <p class="overlay-excerpt">How being unusual became the ultimate competitive advantage.</p>
+                        <div class="overlay-meta">
+                            <span>Jamie Park</span>
+                            <span>•</span>
+                            <span>6 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Regular Text Cover Card -->
+            <article class="blog-card card-regular culture-cat">
+                <div class="text-cover">
+                    <div class="text-content">
+                        <span class="text-category">Culture</span>
+                        <h3 class="text-title">The Museum of Failed Ideas</h3>
+                        <p class="text-excerpt">Celebrating the beautiful disasters that changed everything.</p>
+                        <div class="text-meta">
+                            <span>7 min read</span>
+                            <span>•</span>
+                            <span>3 days ago</span>
+                        </div>
+                    </div>
+                    <div class="text-hover-image">
+                        <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=350&fit=crop" alt="Hidden">
+                    </div>
+                </div>
+            </article>
+
+            <!-- Regular Text Cover Card -->
+            <article class="blog-card card-regular strategy-cat">
+                <div class="text-cover">
+                    <div class="text-content">
+                        <span class="text-category">Strategy</span>
+                        <h3 class="text-title">Zigging When They Zag</h3>
+                        <p class="text-excerpt">A contrarian's guide to standing out in a sea of sameness.</p>
+                        <div class="text-meta">
+                            <span>9 min read</span>
+                            <span>•</span>
+                            <span>Today</span>
+                        </div>
+                    </div>
+                    <div class="text-hover-image">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=350&fit=crop" alt="Hidden">
+                    </div>
+                </div>
+            </article>
+
+            <!-- Regular Image Cover Card -->
+            <article class="blog-card card-regular">
+                <div class="image-cover">
+                    <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=400&h=350&fit=crop" alt="Post" class="cover-image">
+                    <div class="image-overlay">
+                        <span class="overlay-category">Creative Process</span>
+                        <h3 class="overlay-title">Embracing Creative Chaos</h3>
+                        <p class="overlay-excerpt">Why your messiest ideas might be your best ones.</p>
+                        <div class="overlay-meta">
+                            <span>Robin Lee</span>
+                            <span>•</span>
+                            <span>4 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter-section">
+            <h2 class="newsletter-title">Get Unusual Ideas Weekly</h2>
+            <p style="font-size: 20px; margin-bottom: 30px;">Join 10,000+ creative rebels who think different.</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="your@email.com" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        // Dynamic category colors
+        const categoryColors = {
+            'Design': 'var(--pastel-pink)',
+            'Technology': 'var(--pastel-blue)',
+            'Culture': 'var(--pastel-yellow)',
+            'Strategy': 'var(--pastel-green)',
+            'Creative Process': 'var(--pastel-purple)',
+            'Design Philosophy': 'var(--pastel-orange)'
+        };
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active state from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.style.background = 'var(--white)';
+                    b.style.color = 'var(--dark)';
+                });
+                
+                // Add active state to clicked button
+                this.style.background = 'var(--dark)';
+                this.style.color = 'var(--white)';
+                
+                // Filter animation
+                const cards = document.querySelectorAll('.blog-card');
+                cards.forEach((card, index) => {
+                    card.style.animation = 'fadeOut 0.3s ease forwards';
+                    
+                    setTimeout(() => {
+                        card.style.animation = 'fadeIn 0.5s ease forwards';
+                        card.style.animationDelay = `${index * 0.1}s`;
+                    }, 300);
+                });
+            });
+        });
+
+        // Hover effects enhancement
+        document.querySelectorAll('.text-cover').forEach(cover => {
+            cover.addEventListener('mouseenter', function() {
+                const title = this.querySelector('.text-title');
+                if (title) {
+                    title.style.transform = 'scale(0.95)';
+                    title.style.opacity = '0.8';
+                }
+            });
+            
+            cover.addEventListener('mouseleave', function() {
+                const title = this.querySelector('.text-title');
+                if (title) {
+                    title.style.transform = 'scale(1)';
+                    title.style.opacity = '1';
+                }
+            });
+        });
+
+        // Newsletter form
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.newsletter-btn');
+            const originalText = btn.textContent;
+            
+            btn.textContent = 'Welcome aboard! 🎉';
+            btn.style.background = 'var(--bright-coral)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = 'var(--white)';
+                this.reset();
+            }, 3000);
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroTitle = document.querySelector('.hero-title');
+            
+            if (heroTitle) {
+                heroTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Add fade animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Stagger load animation
+        document.querySelectorAll('.blog-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+
+        // Random hover colors for text cards
+        const hoverColors = ['var(--bright-coral)', 'var(--bright-blue)', 'var(--bright-purple)'];
+        
+        document.querySelectorAll('.text-title').forEach(title => {
+            title.addEventListener('mouseenter', function() {
+                const randomColor = hoverColors[Math.floor(Math.random() * hoverColors.length)];
+                this.style.color = randomColor;
+            });
+            
+            title.addEventListener('mouseleave', function() {
+                this.style.color = 'var(--dark)';
+            });
+        });
+
+        // Click to read animation
+        document.querySelectorAll('.blog-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.animation = 'pulse 0.3s ease';
+                
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 300);
+            });
+        });
+
+        // Add pulse animation
+        const pulseStyle = document.createElement('style');
+        pulseStyle.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(0.98); }
+            }
+        `;
+        document.head.appendChild(pulseStyle);
+    </script>
+</body>
+</html>
