@@ -56,31 +56,28 @@
         const responseElement = document.getElementById('responseMessage');
 
         // This is the URL for your deployed Google Cloud Function
-        // The name has been updated to reflect the new entry point, but the base URL remains the same.
         const functionUrl = 'https://hello-world-function-823113639151.europe-west1.run.app';
 
         // Add an event listener to run code when the button is clicked
         sendButton.addEventListener('click', async () => {
             
             // --- UI Updates: Show the user something is happening ---
-            // 1. Clear any previous messages
             responseElement.textContent = 'Sending...';
             responseElement.classList.remove('text-red-500', 'text-green-500');
             responseElement.classList.add('text-gray-600');
             
-            // 2. Disable the button and show the loading spinner
             sendButton.disabled = true;
             buttonText.textContent = 'Processing...';
             loadingSpinner.classList.remove('hidden');
 
             // --- The Automation Logic ---
             try {
-                // Use fetch to make a POST request to your Cloud Function URL
+                // Use fetch to make a POST request to your Cloud Function URL.
+                // The "Failed to fetch" error is often a CORS issue. By removing the 
+                // 'Content-Type' header for this simple POST request, we avoid triggering
+                // a complex "preflight" check that the server might not be configured for.
                 const response = await fetch(functionUrl, {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    }
+                    method: 'POST'
                 });
 
                 // Get the response from the function
