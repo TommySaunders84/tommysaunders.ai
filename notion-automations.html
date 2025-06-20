@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion Automation Trigger</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a clean, modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Use the Inter font family defined above */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for the loading spinner */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-lg shadow-md text-center w-full max-w-md">
+        <!-- Main Title -->
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Notion Automation</h1>
+        <p class="text-gray-600 mb-6">Click the button to send the Knowledge Base page to your Brand Identity library.</p>
+        
+        <!-- The Automation Button -->
+        <button id="sendToBrandButton" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center disabled:bg-blue-400 disabled:cursor-not-allowed">
+            <span id="buttonText">Send to Brand Identity</span>
+            <!-- Loading spinner, hidden by default -->
+            <div id="loadingSpinner" class="loader ml-3 hidden"></div>
+        </button>
+        
+        <!-- Status Message Area -->
+        <p id="responseMessage" class="mt-4 text-sm text-gray-600 h-5"></p>
+    </div>
+
+    <script>
+        // Get references to the HTML elements we need to interact with
+        const sendButton = document.getElementById('sendToBrandButton');
+        const buttonText = document.getElementById('buttonText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const responseElement = document.getElementById('responseMessage');
+
+        // This is the URL for your deployed Google Cloud Function
+        // The name has been updated to reflect the new entry point, but the base URL remains the same.
+        const functionUrl = 'https://hello-world-function-823113639151.europe-west1.run.app';
+
+        // Add an event listener to run code when the button is clicked
+        sendButton.addEventListener('click', async () => {
+            
+            // --- UI Updates: Show the user something is happening ---
+            // 1. Clear any previous messages
+            responseElement.textContent = 'Sending...';
+            responseElement.classList.remove('text-red-500', 'text-green-500');
+            responseElement.classList.add('text-gray-600');
+            
+            // 2. Disable the button and show the loading spinner
+            sendButton.disabled = true;
+            buttonText.textContent = 'Processing...';
+            loadingSpinner.classList.remove('hidden');
+
+            // --- The Automation Logic ---
+            try {
+                // Use fetch to make a POST request to your Cloud Function URL
+                const response = await fetch(functionUrl, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                });
+
+                // Get the response from the function
+                const data = await response.json();
+
+                // Check if the function reported success or an error
+                if (response.ok) {
+                    console.log('Success:', data);
+                    responseElement.textContent = data.message;
+                    responseElement.classList.add('text-green-500');
+                } else {
+                    // If there was an error, display it
+                    console.error('Error from function:', data);
+                    responseElement.textContent = `Error: ${data.message || 'An unknown error occurred.'}`;
+                    responseElement.classList.add('text-red-500');
+                }
+            } catch (error) {
+                // This catches network errors or if the function URL is wrong
+                console.error('Failed to trigger function:', error);
+                responseElement.textContent = 'Failed to connect to the automation service.';
+                responseElement.classList.add('text-red-500');
+            } finally {
+                // --- UI Cleanup: Reset the button after the process is finished ---
+                sendButton.disabled = false;
+                buttonText.textContent = 'Send to Brand Identity';
+                loadingSpinner.classList.add('hidden');
+            }
+        });
+    </script>
+
+</body>
+</html>
