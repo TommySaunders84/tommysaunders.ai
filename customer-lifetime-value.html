@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Lifetime Value (CLV) - Tommy Saunders Data Glossary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Raw Materials Brand Colors - Pastels */
+            --pastel-pink: #FFE5EC;
+            --pastel-blue: #E3F2FD;
+            --pastel-yellow: #FFF9C4;
+            --pastel-green: #E8F5E9;
+            --pastel-purple: #F3E5F5;
+            --pastel-orange: #FFF3E0;
+            
+            /* Bright Accents */
+            --bright-coral: #FF6B6B;
+            --bright-blue: #4DABF7;
+            --bright-yellow: #FFD43B;
+            --bright-green: #51CF66;
+            --bright-purple: #9775FA;
+            --bright-orange: #FF922B;
+            
+            /* Foundation */
+            --dark: #1A1A1A;
+            --gray-900: #212529;
+            --gray-700: #495057;
+            --gray-500: #ADB5BD;
+            --gray-300: #DEE2E6;
+            --gray-100: #F8F9FA;
+            --white: #FFFFFF;
+            
+            /* Layout */
+            --sidebar-width: 280px;
+            --header-height: 64px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--dark);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bright-purple);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .header-nav a {
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active {
+            background: var(--pastel-purple);
+            color: var(--dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 2px solid var(--dark);
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--bright-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--pastel-blue);
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--gray-100);
+            border-right: 2px solid var(--dark);
+            padding: 20px 0;
+            overflow-y: auto;
+            position: fixed;
+            height: calc(100vh - var(--header-height));
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            padding: 0 20px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-700);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 8px 20px;
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            background: var(--pastel-blue);
+            color: var(--dark);
+        }
+
+        .sidebar-link.active {
+            background: var(--pastel-purple);
+            border-left-color: var(--bright-purple);
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .sidebar-icon {
+            margin-right: 12px;
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: calc(100vw - var(--sidebar-width));
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .breadcrumb a {
+            color: var(--bright-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb-separator {
+            color: var(--gray-300);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .page-subtitle {
+            font-size: 20px;
+            color: var(--gray-700);
+            margin-bottom: 20px;
+        }
+
+        .page-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .meta-item {
+            background: var(--pastel-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid var(--dark);
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 2px solid var(--dark);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 5px 5px 0px var(--dark);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--bright-coral);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-700);
+            font-weight: 600;
+        }
+
+        .stat-description {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 8px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .section-content {
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .highlight-box {
+            background: var(--pastel-yellow);
+            border: 2px solid var(--dark);
+            border-left: 6px solid var(--bright-yellow);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        .highlight-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            background: var(--pastel-green);
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .calculator-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .calculator-title {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .calculator-description {
+            color: var(--gray-700);
+            font-size: 16px;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .calculator-inputs {
+            background: var(--white);
+            border: 2px solid var(--dark);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--bright-green);
+            box-shadow: 0 0 0 3px rgba(81, 207, 102, 0.1);
+        }
+
+        .input-help {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            background: var(--bright-green);
+            color: white;
+            border: 2px solid var(--dark);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calculate-btn:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .calculator-results {
+            background: var(--white);
+            border: 2px solid var(--dark);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .result-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .result-main {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--bright-green);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-breakdown {
+            border-top: 2px dashed var(--gray-300);
+            padding-top: 20px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .breakdown-label {
+            color: var(--gray-700);
+        }
+
+        .breakdown-value {
+            font-weight: 600;
+        }
+
+        /* Benchmarks Grid */
+        .benchmarks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .benchmark-card {
+            background: var(--white);
+            border: 2px solid var(--dark);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .benchmark-industry {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+        }
+
+        .benchmark-value {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--bright-blue);
+            margin-bottom: 4px;
+        }
+
+        .benchmark-range {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        /* Action Cards */
+        .action-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .action-card {
+            border: 2px solid var(--dark);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 5px 5px 0px var(--dark);
+        }
+
+        .action-below {
+            background: var(--pastel-coral);
+        }
+
+        .action-above {
+            background: var(--pastel-green);
+        }
+
+        .action-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-list {
+            list-style: none;
+        }
+
+        .action-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .action-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--bright-coral);
+            font-weight: 700;
+        }
+
+        /* Connected Data Points */
+        .connected-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .connected-point {
+            background: var(--pastel-blue);
+            border: 2px solid var(--dark);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .connected-point:hover {
+            transform: translateY(-2px);
+            box-shadow: 3px 3px 0px var(--dark);
+        }
+
+        .connected-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .connected-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+                max-width: 100vw;
+            }
+
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+        }
+
+        /* Animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content > * {
+            animation: slideIn 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/DataPointsGlossary" class="logo">
+                <div class="logo-icon">TS</div>
+                <div class="logo-text">Data Glossary</div>
+            </a>
+            
+            <nav>
+                <ul class="header-nav">
+                    <li><a href="/portfolio">Portfolio</a></li>
+                    <li><a href="/insights">Insights</a></li>
+                    <li><a href="/work">Work</a></li>
+                    <li><a href="/DataPointsGlossary" class="active">Data Glossary</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <a href="/contact" class="btn btn-secondary">Contact</a>
+                <a href="/calendar" class="btn btn-primary">Book Call</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Getting Started</div>
+                <ul class="sidebar-menu">
+                    <li><a href="/DataPointsGlossary" class="sidebar-link">
+                        <span class="sidebar-icon">📊</span>
+                        Data Points Glossary
+                    </a></li>
+                    <li><a href="/DataPointsGlossary/getting-started" class="sidebar-link">
+                        <span class="sidebar-icon">⚡</span>
+                        Quickstart Guide
+                    </a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Conversion Metrics</div>
+                <ul class="sidebar-menu">
+                    <li><a href="/DataPointsGlossary/customer-lifetime-value" class="sidebar-link active">
+                        <span class="sidebar-icon">💰</span>
+                        Customer Lifetime Value
+                    </a></li>
+                    <li><a href="/DataPointsGlossary/conversion-rate" class="sidebar-link">
+                        <span class="sidebar-icon">🎯</span>
+                        Conversion Rate
+                    </a></li>
+                    <li><a href="/DataPointsGlossary/customer-acquisition-cost" class="sidebar-link">
+                        <span class="sidebar-icon">💸</span>
+                        Customer Acquisition Cost
+                    </a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Related Metrics</div>
+                <ul class="sidebar-menu">
+                    <li><a href="/DataPointsGlossary/churn-rate" class="sidebar-link">
+                        <span class="sidebar-icon">🔄</span>
+                        Churn Rate
+                    </a></li>
+                    <li><a href="/DataPointsGlossary/retention-rate" class="sidebar-link">
+                        <span class="sidebar-icon">🔒</span>
+                        Retention Rate
+                    </a></li>
+                    <li><a href="/DataPointsGlossary/average-order-value" class="sidebar-link">
+                        <span class="sidebar-icon">🛒</span>
+                        Average Order Value
+                    </a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="/DataPointsGlossary">Data Points Glossary</a>
+                <span class="breadcrumb-separator">›</span>
+                <a href="/DataPointsGlossary/conversion-metrics">Conversion Metrics</a>
+                <span class="breadcrumb-separator">›</span>
+                <span>Customer Lifetime Value</span>
+            </nav>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Customer Lifetime Value (CLV)</h1>
+                <p class="page-subtitle">The total revenue a business can reasonably expect from a single customer throughout their relationship with your company.</p>
+                
+                <div class="page-meta">
+                    <span class="meta-item">Conversion Metric</span>
+                    <span class="meta-item">High Impact</span>
+                    <span class="meta-item">Long-term Focus</span>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-card" style="background: var(--pastel-blue);">
+                    <div class="stat-value">$2,158</div>
+                    <div class="stat-label">Average CLV</div>
+                    <div class="stat-description">Across all industries</div>
+                </div>
+                <div class="stat-card" style="background: var(--pastel-green);">
+                    <div class="stat-value">5:1</div>
+                    <div class="stat-label">CLV:CAC Ratio</div>
+                    <div class="stat-description">Healthy benchmark</div>
+                </div>
+                <div class="stat-card" style="background: var(--pastel-yellow);">
+                    <div class="stat-value">24 months</div>
+                    <div class="stat-label">Avg Lifespan</div>
+                    <div class="stat-description">Customer lifecycle</div>
+                </div>
+                <div class="stat-card" style="background: var(--pastel-pink);">
+                    <div class="stat-value">67%</div>
+                    <div class="stat-label">Revenue Impact</div>
+                    <div class="stat-description">From repeat customers</div>
+                </div>
+            </div>
+
+            <!-- Definition Section -->
+            <section class="content-section">
+                <h2 class="section-title">What is Customer Lifetime Value?</h2>
+                <div class="section-content">
+                    <p>Customer Lifetime Value (CLV) represents the total amount of money a customer is expected to spend on your business during their entire relationship with your company. This metric helps businesses understand how much they can afford to spend on acquiring new customers and how much they should invest in retaining existing ones.</p>
+                    
+                    <div class="highlight-box">
+                        <div class="highlight-title">💡 Why CLV Matters</div>
+                        <p>CLV is one of the most important metrics for sustainable business growth. It helps you make informed decisions about marketing spend, customer service investments, and product development priorities. Companies with high CLV typically have strong customer relationships and efficient operations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Calculator Section -->
+            <section class="calculator-section">
+                <div class="calculator-header">
+                    <h2 class="calculator-title">CLV Calculator</h2>
+                    <p class="calculator-description">Calculate your Customer Lifetime Value using multiple methodologies</p>
+                </div>
+                
+                <div class="calculator-grid">
+                    <div class="calculator-inputs">
+                        <h3 style="margin-bottom: 20px; font-weight: 700;">Input Your Data</h3>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Average Order Value ($)</label>
+                            <input type="number" id="avgOrderValue" class="input-field" placeholder="150" value="150">
+                            <div class="input-help">Average amount spent per purchase</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Purchase Frequency (per year)</label>
+                            <input type="number" id="purchaseFreq" class="input-field" placeholder="4" value="4">
+                            <div class="input-help">How many times per year they buy</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Customer Lifespan (years)</label>
+                            <input type="number" id="customerLifespan" class="input-field" placeholder="3" value="3">
+                            <div class="input-help">How long they remain a customer</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Gross Margin (%)</label>
+                            <input type="number" id="grossMargin" class="input-field" placeholder="70" value="70">
+                            <div class="input-help">Profit percentage on each sale</div>
+                        </div>
+                        
+                        <button class="calculate-btn" onclick="calculateCLV()">Calculate CLV</button>
+                    </div>
+                    
+                    <div class="calculator-results">
+                        <div class="result-header">
+                            <h3 class="result-title">Your Customer Lifetime Value</h3>
+                        </div>
+                        
+                        <div class="result-main" id="clvResult">$1,260</div>
+                        
+                        <div class="result-breakdown">
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">Annual Customer Value:</span>
+                                <span class="breakdown-value" id="annualValue">$600</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">Total Revenue (Lifetime):</span>
+                                <span class="breakdown-value" id="totalRevenue">$1,800</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">Total Profit (CLV):</span>
+                                <span class="breakdown-value" id="totalProfit">$1,260</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">Monthly CLV:</span>
+                                <span class="breakdown-value" id="monthlyCLV">$35</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Industry Benchmarks -->
+            <section class="content-section">
+                <h2 class="section-title">Industry Benchmarks</h2>
+                <div class="section-content">
+                    <p>CLV varies significantly across industries. Here are some typical ranges to help you benchmark your performance:</p>
+                    
+                    <div class="benchmarks-grid">
+                        <div class="benchmark-card" style="background: var(--pastel-blue);">
+                            <div class="benchmark-industry">E-commerce</div>
+                            <div class="benchmark-value">$1,890</div>
+                            <div class="benchmark-range">Range: $600 - $3,200</div>
+                        </div>
+                        <div class="benchmark-card" style="background: var(--pastel-green);">
+                            <div class="benchmark-industry">SaaS</div>
+                            <div class="benchmark-value">$3,500</div>
+                            <div class="benchmark-range">Range: $1,800 - $8,000</div>
+                        </div>
+                        <div class="benchmark-card" style="background: var(--pastel-yellow);">
+                            <div class="benchmark-industry">Subscription</div>
+                            <div class="benchmark-value">$2,400</div>
+                            <div class="benchmark-range">Range: $1,200 - $4,500</div>
+                        </div>
+                        <div class="benchmark-card" style="background: var(--pastel-pink);">
+                            <div class="benchmark-industry">Retail</div>
+                            <div class="benchmark-value">$1,200</div>
+                            <div class="benchmark-range">Range: $400 - $2,800</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Cards -->
+            <section class="content-section">
+                <h2 class="section-title">Optimization Strategies</h2>
+                
+                <div class="action-cards">
+                    <div class="action-card action-below">
+                        <div class="action-title">
+                            <span>📉</span>
+                            If Your CLV is Below Benchmark
+                        </div>
+                        <ul class="action-list">
+                            <li>Implement customer loyalty programs</li>
+                            <li>Improve customer onboarding process</li>
+                            <li>Increase product quality and customer satisfaction</li>
+                            <li>Develop cross-sell and upsell strategies</li>
+                            <li>Enhance customer support experience</li>
+                            <li>Create subscription or recurring revenue models</li>
+                            <li>Segment customers for personalized experiences</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="action-card action-above">
+                        <div class="action-title">
+                            <span>📈</span>
+                            If Your CLV is Above Benchmark
+                        </div>
+                        <ul class="action-list">
+                            <li>Scale acquisition efforts with confidence</li>
+                            <li>Invest more in premium customer experiences</li>
+                            <li>Expand to new customer segments</li>
+                            <li>Increase marketing budget allocation</li>
+                            <li>Develop VIP or premium service tiers</li>
+                            <li>Focus on referral program expansion</li>
+                            <li>Test higher-touch sales processes</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Connected Data Points -->
+            <section class="content-section">
+                <h2 class="section-title">Connected Data Points</h2>
+                <div class="section-content">
+                    <p>CLV works best when analyzed alongside these related metrics:</p>
+                    
+                    <div class="connected-points">
+                        <a href="/DataPointsGlossary/customer-acquisition-cost" class="connected-point">
+                            <div class="connected-icon">💸</div>
+                            <div class="connected-title">Customer Acquisition Cost</div>
+                        </a>
+                        <a href="/DataPointsGlossary/churn-rate" class="connected-point">
+                            <div class="connected-icon">🔄</div>
+                            <div class="connected-title">Churn Rate</div>
+                        </a>
+                        <a href="/DataPointsGlossary/average-order-value" class="connected-point">
+                            <div class="connected-icon">🛒</div>
+                            <div class="connected-title">Average Order Value</div>
+                        </a>
+                        <a href="/DataPointsGlossary/retention-rate" class="connected-point">
+                            <div class="connected-icon">🔒</div>
+                            <div class="connected-title">Retention Rate</div>
+                        </a>
+                        <a href="/DataPointsGlossary/purchase-frequency" class="connected-point">
+                            <div class="connected-icon">🔁</div>
+                            <div class="connected-title">Purchase Frequency</div>
+                        </a>
+                        <a href="/DataPointsGlossary/gross-margin" class="connected-point">
+                            <div class="connected-icon">📊</div>
+                            <div class="connected-title">Gross Margin</div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Insights -->
+            <section class="content-section">
+                <h2 class="section-title">Key Insights & Best Practices</h2>
+                <div class="section-content">
+                    <div class="highlight-box">
+                        <div class="highlight-title">🎯 Optimization Focus Areas</div>
+                        <p><strong>Increase Purchase Frequency:</strong> Email marketing, personalized recommendations, and loyalty programs can dramatically improve how often customers buy.</p>
+                        <p><strong>Extend Customer Lifespan:</strong> Focus on customer success, regular check-ins, and continuous value delivery to keep customers longer.</p>
+                        <p><strong>Boost Average Order Value:</strong> Bundle products, offer upsells at checkout, and create premium tiers to increase spending per transaction.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function calculateCLV() {
+            // Get input values
+            const avgOrderValue = parseFloat(document.getElementById('avgOrderValue').value) || 0;
+            const purchaseFreq = parseFloat(document.getElementById('purchaseFreq').value) || 0;
+            const customerLifespan = parseFloat(document.getElementById('customerLifespan').value) || 0;
+            const grossMargin = parseFloat(document.getElementById('grossMargin').value) || 0;
+            
+            // Calculate CLV components
+            const annualCustomerValue = avgOrderValue * purchaseFreq;
+            const totalRevenue = annualCustomerValue * customerLifespan;
+            const totalProfit = totalRevenue * (grossMargin / 100);
+            const monthlyCLV = totalProfit / (customerLifespan * 12);
+            
+            // Update display
+            document.getElementById('clvResult').textContent = `$${totalProfit.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+            document.getElementById('annualValue').textContent = `$${annualCustomerValue.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+            document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+            document.getElementById('totalProfit').textContent = `$${totalProfit.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+            document.getElementById('monthlyCLV').textContent = `$${monthlyCLV.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+            
+            // Add animation to results
+            const resultElement = document.getElementById('clvResult');
+            resultElement.style.animation = 'none';
+            setTimeout(() => {
+                resultElement.style.animation = 'slideIn 0.5s ease forwards';
+            }, 10);
+            
+            // Provide contextual feedback
+            provideFeedback(totalProfit, annualCustomerValue);
+        }
+        
+        function provideFeedback(clv, annualValue) {
+            // Create or update feedback section
+            let feedbackSection = document.getElementById('clv-feedback');
+            if (!feedbackSection) {
+                feedbackSection = document.createElement('div');
+                feedbackSection.id = 'clv-feedback';
+                feedbackSection.style.cssText = `
+                    margin-top: 20px;
+                    padding: 16px;
+                    border-radius: 12px;
+                    border: 2px solid var(--dark);
+                    font-weight: 600;
+                `;
+                document.querySelector('.calculator-results').appendChild(feedbackSection);
+            }
+            
+            let feedback = '';
+            let bgColor = '';
+            
+            if (clv < 1000) {
+                feedback = "🔍 Focus on increasing customer retention and average order value";
+                bgColor = 'var(--pastel-yellow)';
+            } else if (clv < 2500) {
+                feedback = "👍 Good CLV! Consider expanding your customer acquisition efforts";
+                bgColor = 'var(--pastel-blue)';
+            } else {
+                feedback = "🚀 Excellent CLV! You can afford aggressive growth strategies";
+                bgColor = 'var(--pastel-green)';
+            }
+            
+            feedbackSection.style.background = bgColor;
+            feedbackSection.textContent = feedback;
+        }
+        
+        // Calculate initial values on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateCLV();
+            
+            // Add input event listeners for real-time calculation
+            const inputs = ['avgOrderValue', 'purchaseFreq', 'customerLifespan', 'grossMargin'];
+            inputs.forEach(inputId => {
+                document.getElementById(inputId).addEventListener('input', calculateCLV);
+            });
+        });
+        
+        // Add mobile responsiveness
+        function handleResize() {
+            if (window.innerWidth <= 768) {
+                // Mobile optimizations
+                const calculatorGrid = document.querySelector('.calculator-grid');
+                if (calculatorGrid) {
+                    calculatorGrid.style.gridTemplateColumns = '1fr';
+                }
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Call on initial load
+    </script>
+</body>
+</html>
