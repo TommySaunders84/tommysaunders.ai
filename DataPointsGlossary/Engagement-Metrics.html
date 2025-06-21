@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engagement Metrics - Tommy Saunders Data Glossary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Raw Materials Brand Colors - Pastels */
+            --pastel-pink: #FFE5EC;
+            --pastel-blue: #E3F2FD;
+            --pastel-yellow: #FFF9C4;
+            --pastel-green: #E8F5E9;
+            --pastel-purple: #F3E5F5;
+            --pastel-orange: #FFF3E0;
+            
+            /* Bright Accents */
+            --bright-coral: #FF6B6B;
+            --bright-blue: #4DABF7;
+            --bright-yellow: #FFD43B;
+            --bright-green: #51CF66;
+            --bright-purple: #9775FA;
+            --bright-orange: #FF922B;
+            
+            /* Foundation */
+            --dark: #1A1A1A;
+            --gray-900: #212529;
+            --gray-700: #495057;
+            --gray-500: #ADB5BD;
+            --gray-300: #DEE2E6;
+            --gray-100: #F8F9FA;
+            --white: #FFFFFF;
+            
+            /* Layout */
+            --sidebar-width: 280px;
+            --header-height: 64px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--dark);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bright-purple);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .header-nav a {
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active {
+            background: var(--pastel-purple);
+            color: var(--dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 2px solid var(--dark);
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--bright-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--pastel-blue);
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--gray-100);
+            border-right: 2px solid var(--dark);
+            padding: 20px 0;
+            overflow-y: auto;
+            position: fixed;
+            height: calc(100vh - var(--header-height));
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            padding: 0 20px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-700);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 8px 20px;
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            background: var(--pastel-blue);
+            color: var(--dark);
+        }
+
+        .sidebar-link.active {
+            background: var(--pastel-purple);
+            border-left-color: var(--bright-purple);
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .sidebar-icon {
+            margin-right: 12px;
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .submenu {
+            list-style: none;
+            margin-left: 32px;
+        }
+
+        .submenu .sidebar-link {
+            padding: 6px 20px;
+            font-size: 14px;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: calc(100vw - var(--sidebar-width));
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .breadcrumb a {
+            color: var(--bright-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb-separator {
+            color: var(--gray-300);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .page-subtitle {
+            font-size: 20px;
+            color: var(--gray-700);
+            margin-bottom: 20px;
+        }
+
+        .page-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .meta-item {
+            background: var(--pastel-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid var(--dark);
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--white);
+            border: 2px solid var(--dark);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 5px 5px 0px var(--dark);
+        }
+
+        .metric-category {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--pastel-yellow);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .metric-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .metric-description {
+            font-size: 14px;
+            color: var(--gray-700);
+            margin-bottom: 16px;
+        }
+
+        .metric-stats {
+            display: flex;
+            gap: 16px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--bright-coral);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Overview Section */
+        .overview-section {
+            background: var(--pastel-blue);
+            border: 2px solid var(--dark);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .overview-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .overview-content {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .highlight-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .highlight-stat {
+            background: var(--white);
+            border: 2px solid var(--dark);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .highlight-value {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--bright-blue);
+            margin-bottom: 8px;
+        }
+
+        .highlight-label {
+            font-size: 14px;
+            color: var(--gray-700);
+            font-weight: 600;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+                max-width: 100vw;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+        }
+
+        /* Animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content > * {
+            animation: slideIn 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-content">
+            <a href="https://tommysaunders.ai/DataPointsGlossary" class="logo">
+                <div class="logo-icon">TS</div>
+                <div class="logo-text">Data Glossary</div>
+            </a>
+            
+            <nav>
+                <ul class="header-nav">
+                    <li><a href="https://tommysaunders.ai/portfolio">Portfolio</a></li>
+                    <li><a href="https://tommysaunders.ai/insights">Insights</a></li>
+                    <li><a href="https://tommysaunders.ai/work">Work</a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary" class="active">Data Glossary</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <a href="https://tommysaunders.ai/contact" class="btn btn-secondary">Contact</a>
+                <a href="https://tommysaunders.ai/calendar" class="btn btn-primary">Book Call</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Getting Started</div>
+                <ul class="sidebar-menu">
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary" class="sidebar-link">
+                        <span class="sidebar-icon">📊</span>
+                        Data Points Glossary
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/getting-started" class="sidebar-link">
+                        <span class="sidebar-icon">⚡</span>
+                        Quickstart Guide
+                    </a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Engagement Metrics</div>
+                <ul class="sidebar-menu">
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/engagement-metrics" class="sidebar-link active">
+                        <span class="sidebar-icon">💡</span>
+                        Overview
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/click-through-rate" class="sidebar-link">
+                        <span class="sidebar-icon">📊</span>
+                        Click-Through Rate
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/bounce-rate" class="sidebar-link">
+                        <span class="sidebar-icon">⚡</span>
+                        Bounce Rate
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/session-duration" class="sidebar-link">
+                        <span class="sidebar-icon">⏱️</span>
+                        Session Duration
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/time-on-page" class="sidebar-link">
+                        <span class="sidebar-icon">⏰</span>
+                        Time on Page
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/page-views-per-session" class="sidebar-link">
+                        <span class="sidebar-icon">📄</span>
+                        Page Views per Session
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/scroll-depth" class="sidebar-link">
+                        <span class="sidebar-icon">📏</span>
+                        Scroll Depth
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/engagement-rate" class="sidebar-link">
+                        <span class="sidebar-icon">💫</span>
+                        Engagement Rate
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/social-engagement" class="sidebar-link">
+                        <span class="sidebar-icon">👥</span>
+                        Social Engagement
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/email-open-rate" class="sidebar-link">
+                        <span class="sidebar-icon">📧</span>
+                        Email Open Rate
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/email-click-rate" class="sidebar-link">
+                        <span class="sidebar-icon">📬</span>
+                        Email Click Rate
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/video-completion-rate" class="sidebar-link">
+                        <span class="sidebar-icon">🎥</span>
+                        Video Completion Rate
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/form-completion-rate" class="sidebar-link">
+                        <span class="sidebar-icon">📝</span>
+                        Form Completion Rate
+                    </a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Other Categories</div>
+                <ul class="sidebar-menu">
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/conversion-metrics" class="sidebar-link">
+                        <span class="sidebar-icon">🎯</span>
+                        Conversion Metrics
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/retention-metrics" class="sidebar-link">
+                        <span class="sidebar-icon">🔄</span>
+                        Retention Metrics
+                    </a></li>
+                    <li><a href="https://tommysaunders.ai/DataPointsGlossary/brand-metrics" class="sidebar-link">
+                        <span class="sidebar-icon">✨</span>
+                        Brand Metrics
+                    </a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="https://tommysaunders.ai/DataPointsGlossary">Data Points Glossary</a>
+                <span class="breadcrumb-separator">›</span>
+                <span>Engagement Metrics</span>
+            </nav>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Engagement Metrics</h1>
+                <p class="page-subtitle">Measure how users interact with your content, products, and brand experiences to optimize engagement and drive meaningful connections.</p>
+                
+                <div class="page-meta">
+                    <span class="meta-item">12 Metrics</span>
+                    <span class="meta-item">High Impact</span>
+                    <span class="meta-item">Real-time Tracking</span>
+                </div>
+            </div>
+
+            <!-- Overview Section -->
+            <section class="overview-section">
+                <h2 class="overview-title">Understanding Engagement Metrics</h2>
+                <div class="overview-content">
+                    <p>Engagement metrics reveal how deeply users connect with your digital experiences. These metrics go beyond simple traffic numbers to show genuine interaction, attention, and behavioral patterns that indicate real user interest and satisfaction.</p>
+                    
+                    <p>From bounce rates that reveal content relevance to scroll depth that shows content consumption, engagement metrics provide actionable insights for optimizing user experience, content strategy, and conversion pathways.</p>
+                </div>
+                
+                <div class="highlight-stats">
+                    <div class="highlight-stat">
+                        <div class="highlight-value">73%</div>
+                        <div class="highlight-label">Higher conversion with good engagement</div>
+                    </div>
+                    <div class="highlight-stat">
+                        <div class="highlight-value">2.5x</div>
+                        <div class="highlight-label">ROI improvement potential</div>
+                    </div>
+                    <div class="highlight-stat">
+                        <div class="highlight-value">45%</div>
+                        <div class="highlight-label">Reduction in bounce rate possible</div>
+                    </div>
+                    <div class="highlight-stat">
+                        <div class="highlight-value">Real-time</div>
+                        <div class="highlight-label">Optimization opportunities</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Engagement Metrics Grid -->
+            <section>
+                <h2 class="section-title">Core Engagement Metrics</h2>
+                <div class="metrics-grid">
+                    <a href="https://tommysaunders.ai/DataPointsGlossary/bounce-rate" class="metric-card" style="background: var(--pastel-pink);">
+                        <div class="metric-category">Critical</div>
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: var(--bright-coral);">⚡</div>
+                        </div>
+                        <h3 class="metric-title">Bounce Rate</h3>
+                        <p class="metric-description">Percentage of visitors who leave after viewing only one page. Lower is generally better for most websites.</p>
+                        <div class="metric-stats">
+                            <div class="stat">
+                                <div class="stat-value">26-40%</div>
+                                <div class="stat-label">Good Range</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">High</div>
+                                <div class="stat-label">Impact</div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://tommysaunders.ai/DataPointsGlossary/session-duration" class="metric-card" style="background: var(--pastel-blue);">
+                        <div class="metric-category">Core</div>
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: var(--bright-blue);">⏱️</div>
+                        </div>
+                        <h3 class="metric-title">Session Duration</h3>
+                        <p class="metric-description">Average time users spend on your site during a single session. Indicates content quality and user interest.</p>
+                        <div class="metric-stats">
+                            <div class="stat">
+                                <div class="stat-value">2-4 min</div>
+                                <div class="stat-label">Avg Benchmark</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">High</div>
+                                <div class="stat-label">Impact</div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://tommysaunders.ai/DataPointsGlossary/page-views-per-session" class="metric-card" style="background: var(--pastel-green);">
+                        <div class="metric-category">Core</div>
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: var(--bright-green);">📄</div>
+                        </div>
+                        <h3 class="metric-title">Page Views per Session</h3>
+                        <p class="metric-description">Average number of pages viewed during a single session. Shows content discovery and site navigation effectiveness.</p>
+                        <div class="metric-stats">
+                            <div class="stat">
+                                <div class="stat-value">2.5-3.5</div>
+                                <div class="stat-label">Good Range</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Medium</div>
+                                <div class="stat-label">Impact</div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://tommysaunders.ai/DataPointsGlossary/scroll-depth" class="metric-card" style="background: var(--pastel-yellow);">
+                        <div class="metric-category">Behavioral</div>
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: var(--bright-yellow);">📏</div>
+                        </div>
+                        <h3 class="metric-title">Scroll Depth</h3>
+                        <p class="metric-description">How far down users scroll on your pages. Reveals content consumption patterns and engagement quality.</p>
+                        <div class="metric-stats">
+                            <div class="stat">
+                                <div class="stat-value">70%+</div>
+                                <div class="stat-label">Good Engagement</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Medium</div>
+                                <div class="stat-label">Impact</div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://tommysaunders.ai/DataPointsGlossary/engagement-rate" class="metric-card" style="background: var(--pastel-purple);">
+                        <div class="metric-category">Social</div>
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: var(--bright-purple);">💫</div>
+                        </div>
+                        <h3 class="metric-title">Engagement Rate</h3>
+                        <p class="metric-description">Percentage of audience that actively engages with your content through likes, comments, shares, or other interactions.</p>
+                        <div class="metric-stats">
+                            <div class="stat">
+                                <div class="stat-value">1-5%</div>
+                                <div class="stat-label">Typical Range</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">High</div>
+                                <div class="stat-label">Impact</div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://tommysaunders.ai/DataPointsGlossary/email-open-rate" class="metric-card" style="background: var(--pastel-orange);">
+                        <div class="metric-category">Email</div>
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: var(--bright-orange);">📧</div>
+                        </div>
+                        <h3 class="metric-title">Email Open Rate</h3>
+                        <p class="metric-description">Percentage of email recipients who open your emails. Critical for email marketing effectiveness and deliverability.</p>
+                        <div class="metric-stats">
+                            <div class="stat">
+                                <div class="stat-value">20-25%</div>
+                                <div class="stat-label">Industry Avg</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">High</div>
+                                <div class="stat-label">Impact</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Add mobile responsiveness
+        function handleResize() {
+            if (window.innerWidth <= 768) {
+                // Mobile optimizations
+                const sidebar = document.querySelector('.sidebar');
+                const content = document.querySelector('.content');
+                if (sidebar && content) {
+                    content.style.marginLeft = '0';
+                    sidebar.style.transform = 'translateX(-100%)';
+                }
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Call on initial load
+        
+        // Add mobile menu button for responsive design
+        if (window.innerWidth <= 768) {
+            const mobileMenuBtn = document.createElement('button');
+            mobileMenuBtn.innerHTML = '☰';
+            mobileMenuBtn.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1001;
+                background: var(--bright-purple);
+                color: white;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 18px;
+                cursor: pointer;
+            `;
+            mobileMenuBtn.onclick = function() {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? 'translateX(-100%)' : 'translateX(0px)';
+            };
+            document.body.appendChild(mobileMenuBtn);
+        }
+    </script>
+</body>
+</html>
